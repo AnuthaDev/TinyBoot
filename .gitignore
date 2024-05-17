@@ -1,0 +1,7 @@
+*.EFI
+*.d
+*.o
+*.pdb
+.vscode/*
+root/
+scripts/*.bin
