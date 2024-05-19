@@ -466,4 +466,65 @@ CHAR16 *strcat_u16(CHAR16 *dst, CHAR16 *src)
 	return dst;
 }
 
+// ====================================
+// memset for compiling with clang/gcc:
+// Sets len bytes of dst memory with int c
+// Returns dst buffer
+// ================================
+VOID *memset(VOID *dst, UINT8 c, UINTN len)
+{
+	UINT8 *p = dst;
+	for (UINTN i = 0; i < len; i++)
+		p[i] = c;
+
+	return dst;
+}
+
+// ====================================
+// memcpy for compiling with clang/gcc:
+// Sets len bytes of dst memory from src.
+// Assumes memory does not overlap!
+// Returns dst buffer
+// ================================
+VOID *memcpy(VOID *dst, VOID *src, UINTN len)
+{
+	UINT8 *p = dst;
+	UINT8 *q = src;
+	for (UINTN i = 0; i < len; i++)
+		p[i] = q[i];
+
+	return dst;
+}
+
+// =============================================================================
+// memcmp:
+// Compare up to len bytes of m1 and m2, stop at first
+//   point that they don't equal.
+// Returns 0 if equal, >0 if m1 is greater than m2, <0 if m2 is greater than m1
+// =============================================================================
+INTN memcmp(VOID *m1, VOID *m2, UINTN len)
+{
+	UINT8 *p = m1;
+	UINT8 *q = m2;
+	for (UINTN i = 0; i < len; i++)
+		if (p[i] != q[i])
+			return (INTN)(p[i]) - (INTN)(q[i]);
+
+	return 0;
+}
+
+// =====================================================================
+// (ASCII) strlen:
+// Returns: length of string not including NULL terminator
+// =====================================================================
+UINTN strlen(const char *s) {
+    UINTN len = 0;
+    while (*s) {
+        len++;
+        s++;
+    }
+
+    return len;
+}
+
 #endif
